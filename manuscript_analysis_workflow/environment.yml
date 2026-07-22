@@ -1,0 +1,22 @@
+name: maize-heterosis-analysis
+channels:
+  - conda-forge
+  - bioconda
+dependencies:
+  - python=3.11
+  - scanpy
+  - anndata
+  - numpy
+  - pandas
+  - scipy
+  - jupyterlab
+  - r-base=4.5
+  - r-data.table
+  - r-ggplot2
+  - r-seurat
+  - bioconductor-deseq2
+  - bioconductor-apeglm
+  - bioconductor-fgsea
+  - bioconductor-complexheatmap
+  - bioconductor-clusterprofiler
+  - bioconductor-annotationhub
