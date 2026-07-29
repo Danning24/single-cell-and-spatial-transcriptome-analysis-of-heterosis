@@ -1,4 +1,3 @@
-# Portable project root; set MAIZE_PROJECT_ROOT before running.
 project_root <- Sys.getenv("MAIZE_PROJECT_ROOT", unset = "")
 if (!nzchar(project_root)) stop("Set MAIZE_PROJECT_ROOT to the analysis data root")
 
@@ -8,7 +7,6 @@ setwd(project_root)
 sce <- readRDS(file.path(project_root, "data", "scRNA_all_annotated_filtered_500gene_1000umi_CCA.RDS"))
 marker <- read_excel("marker.xlsx")
 
-#BiocManager::install("clustree")
 library(Seurat)
 library(clustree)
 library(readxl)
@@ -31,7 +29,6 @@ DimPlot(sce,label = T)
 head(sce@assays)
 table(sce$seurat_clusters)
 
-#分离出相应的细胞
 Cortex<-subset(sce,idents="Cortex")
 Cortex <- Cortex %>%
   SCTransform() %>%
@@ -52,8 +49,6 @@ FeaturePlot(Cortex,features = c("Zm00001d040390"))
 VlnPlot(Cortex,features = c("Zm00001d022421"))+NoLegend()
 VlnPlot(Cortex,features = c("Zm00001d001951"))+NoLegend()
 VlnPlot(Cortex,features = c("Zm00001d040390"))+NoLegend()
-
-
 
 Idents(Cortex)<-Cortex$orig.ident
 newname<-c("A554","A680","B37","B37","B73xA554","B73xA680","B73xB37","B73xNC298",
@@ -93,8 +88,6 @@ marker <- marker %>%
   filter(n() == 1) %>%
   ungroup()
 
-
-
 Epidermis<-subset(sce,idents="Epidermis")
 Epidermis <- Epidermis %>%
   SCTransform() %>%
@@ -107,8 +100,6 @@ Epidermis <- Epidermis %>%
 
 Idents(Epidermis)<-Epidermis$SCT_snn_res.0.04
 DimPlot(Epidermis,label = T)
-
-##Cortex的monocle3分析
 
 cds <- as.cell_data_set(Cortex)
 name<-c("Cortex_1","Cortex_2","Cortex_3")
@@ -128,7 +119,6 @@ plot_cells(cds,
            label_groups_by_cluster = FALSE,
            label_leaves = F,
            label_branch_points = F)
-
 
 DimPlot(Epidermis,label = T)
 cds_Epidermis <- as.cell_data_set(Epidermis)

@@ -1,8 +1,5 @@
-# Portable project root; set MAIZE_PROJECT_ROOT before running.
 project_root <- Sys.getenv("MAIZE_PROJECT_ROOT", unset = "")
 if (!nzchar(project_root)) stop("Set MAIZE_PROJECT_ROOT to the analysis data root")
-
-#!/usr/bin/env Rscript
 
 suppressPackageStartupMessages({
   library(data.table)
@@ -18,8 +15,6 @@ if (.Platform$OS.type == "windows") {
   suppressWarnings(Sys.setlocale("LC_ALL", "Chinese (Simplified)_China.utf8"))
 }
 
-# On Windows, commandArgs() may corrupt non-ASCII paths under a C locale.
-# The workflow is intentionally launched from the project root, so getwd() is stable.
 project_root <- normalizePath(project_root, winslash = "/", mustWork = TRUE)
 analysis_dir <- file.path(project_root, "ros_nonadditive_analysis")
 result_dir <- file.path(analysis_dir, "results")

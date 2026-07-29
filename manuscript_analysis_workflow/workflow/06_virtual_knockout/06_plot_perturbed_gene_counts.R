@@ -1,4 +1,3 @@
-# Portable project root; set MAIZE_PROJECT_ROOT before running.
 project_root <- Sys.getenv("MAIZE_PROJECT_ROOT", unset = "")
 if (!nzchar(project_root)) stop("Set MAIZE_PROJECT_ROOT to the analysis data root")
 
@@ -40,7 +39,6 @@ count_df <- count_df[order(count_df$group, count_df$KO), , drop = FALSE]
 
 write.csv(count_df, file.path(summary_dir, "perturbed_gene_counts_by_KO_group.csv"), row.names = FALSE)
 
-# 按两个组的总扰动数量排序，方便横向比较。
 ord <- aggregate(n_sig ~ KO, count_df, sum, na.rm = TRUE)
 ord <- ord[order(ord$n_sig, decreasing = TRUE), ]
 count_df$KO <- factor(count_df$KO, levels = ord$KO)
@@ -74,7 +72,6 @@ p <- ggplot(count_df, aes(x = KO, y = n_sig, fill = group)) +
 ggsave(file.path(summary_dir, "perturbed_gene_counts_by_KO_group.pdf"), p, width = 9, height = 9)
 ggsave(file.path(summary_dir, "perturbed_gene_counts_by_KO_group.png"), p, width = 9, height = 9, dpi = 300)
 
-# 再输出一个每组总数的小表，方便直接看总体量。
 group_total <- aggregate(n_sig ~ group, count_df, sum, na.rm = TRUE)
 write.csv(group_total, file.path(summary_dir, "perturbed_gene_counts_group_total.csv"), row.names = FALSE)
 

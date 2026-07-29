@@ -1,4 +1,3 @@
-# Portable project root; set MAIZE_PROJECT_ROOT before running.
 project_root <- Sys.getenv("MAIZE_PROJECT_ROOT", unset = "")
 if (!nzchar(project_root)) stop("Set MAIZE_PROJECT_ROOT to the analysis data root")
 
@@ -13,12 +12,11 @@ Spatail@images
 library("dplyr")
 library(stringr)
 
-
 spatial_heterotic_genes_results$cluster<-stringr::str_to_upper(spatial_heterotic_genes_results$cluster)
 table(spatial_heterotic_genes_results$cluster)
 nonadd_cortex <- spatial_heterotic_genes_results %>%
-  filter(pattern == "Non-additive") %>%        # 先筛出所有非加性
-  group_by(Trait) %>%                 # 按基因分组
+  filter(pattern == "Non-additive") %>%
+  group_by(Trait) %>%
   filter(
     all(str_detect(cluster, "CORTEX"))
   ) %>%
@@ -26,7 +24,6 @@ nonadd_cortex <- spatial_heterotic_genes_results %>%
 
 unique(nonadd_cortex$Trait)
 
-##筛选出positive heterosis
 result <- nonadd_cortex %>%
   group_by(Trait) %>%
   filter(all(MPH.pct > 0)) %>%
@@ -69,9 +66,9 @@ SpatialFeaturePlot(Spatial_cortex,features = "upNAG_Scores1",pt.size.factor = 10
                                                      legend.direction = "vertical" )&
   guides(
     fill = guide_colorbar(
-      direction = "horizontal",      # 关键：横向
-      barwidth = unit(1.2, "cm"),     # 控制长度
-      barheight = unit(0.2, "cm")     # 控制厚度
+      direction = "horizontal",
+      barwidth = unit(1.2, "cm"),
+      barheight = unit(0.2, "cm")
     )
   )
 dev.off()
@@ -84,9 +81,9 @@ SpatialFeaturePlot(Spatial_cortex,features = "downNAG_Scores2",pt.size.factor = 
                                                      legend.direction = "vertical" )&
   guides(
     fill = guide_colorbar(
-      direction = "horizontal",      # 关键：横向
-      barwidth = unit(1.2, "cm"),     # 控制长度
-      barheight = unit(0.2, "cm")     # 控制厚度
+      direction = "horizontal",
+      barwidth = unit(1.2, "cm"),
+      barheight = unit(0.2, "cm")
     )
   )
 dev.off()
@@ -99,13 +96,12 @@ SpatialFeaturePlot(Spatial_cortex,features = "NAG_Scores3",pt.size.factor = 10,
                                                      legend.direction = "vertical" )&
   guides(
     fill = guide_colorbar(
-      direction = "horizontal",      # 关键：横向
-      barwidth = unit(1.2, "cm"),     # 控制长度
-      barheight = unit(0.2, "cm")     # 控制厚度
+      direction = "horizontal",
+      barwidth = unit(1.2, "cm"),
+      barheight = unit(0.2, "cm")
     )
   )
 dev.off()
-
 
 p1 <- VlnPlot(Spatial_cortex,features = "upNAG_Scores1")
 p2 <- VlnPlot(Spatial_cortex,features = "downNAG_Scores2")

@@ -1,4 +1,3 @@
-# Portable project root; set MAIZE_PROJECT_ROOT before running.
 project_root <- Sys.getenv("MAIZE_PROJECT_ROOT", unset = "")
 if (!nzchar(project_root)) stop("Set MAIZE_PROJECT_ROOT to the analysis data root")
 
@@ -37,9 +36,6 @@ read_csv_safe <- function(path) {
 
 drop_self_ko <- function(df, ko) {
   if (nrow(df) == 0 || !"gene" %in% names(df)) return(df)
-  # 鍗曟暡鏃?ko 鏄竴涓熀鍥狅紱鍙屾暡鏃?ko 浼氬啓鎴?
-  # Zm00001d007234_plus_Zm00001d043795銆?
-  # 瀵岄泦鍒嗘瀽鍙湅琚壈鍔ㄧ殑涓嬫父鍩哄洜锛屾墍浠ヨ繖閲岃鎶婃墍鏈夎鏁插熀鍥犻兘鍘绘帀銆?
   ko_genes <- unlist(strsplit(ko, "_plus_", fixed = TRUE))
   df[!(tolower(df$gene) %in% tolower(ko_genes)), , drop = FALSE]
 }
@@ -677,10 +673,6 @@ read_universe <- function(group_name, diff_files) {
 }
 
 parse_result_files <- function(result_dir) {
-  # 褰撳墠缁撴灉宸茬粡鏁寸悊鎴愨€滄瘡涓?KO 涓€涓枃浠跺す鈥濓紝鎵€浠ヨ繖閲屽繀椤?recursive = TRUE銆?
-  # 鍚屾椂鍏煎锛?
-  #   鍗曟暡锛欱73xA554__Zm00001d011969.safe_ma1.diffRegulation.csv
-  #   鍙屾暡锛欱73xA554__Zm00001d007234_plus_Zm00001d043795.diffRegulation.csv
   files <- list.files(
     result_dir,
     pattern = "\\.(diffRegulation|sig_genes|sig_gene_counts)\\.csv$",
@@ -731,8 +723,6 @@ process_group <- function(group_name, file_index, go_map, kegg_map, gene_annot) 
     sig_path <- idx$path[idx$KO == ko & idx$type == "sig_genes"][1]
     diff_path <- idx$path[idx$KO == ko & idx$type == "diffRegulation"][1]
 
-    # GO/KEGG 缁撴灉璺熼殢姣忎釜 KO 鑷繁鐨?scTenifoldKnk 缁撴灉鏂囦欢澶逛繚瀛橈紝鏂逛究鍚庣画鏌ョ湅銆?
-    # 渚嬪锛歴ctenifold_results/B73xA554__Zm00001d011969/GO_KEGG/
     source_result_dir <- dirname(diff_path)
     ko_out <- file.path(source_result_dir, "GO_KEGG")
     dir.create(ko_out, recursive = TRUE, showWarnings = FALSE)

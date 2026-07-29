@@ -1,4 +1,3 @@
-# Portable project root; set MAIZE_PROJECT_ROOT before running.
 project_root <- Sys.getenv("MAIZE_PROJECT_ROOT", unset = "")
 if (!nzchar(project_root)) stop("Set MAIZE_PROJECT_ROOT to the analysis data root")
 
@@ -11,14 +10,7 @@ library(AnnotationHub)
 library(GO.db)
 library(dplyr)
 
-# Dependency only; install outside the analysis script: BiocManager::install("topGO")
-# Configure proxies outside the analysis script if required.
-# Configure proxies outside the analysis script if required.
-# Optional proxy configuration removed from the public workflow.
-# Optional proxy configuration removed from the public workflow.
-# Optional proxy configuration removed from the public workflow.
 hub = AnnotationHub()
-# query(hub, "zea")
 maize = hub[["AH114308"]]
 
 nonaddgenes <- read_csv(file.path(project_root, "data", "sc_all_heterotic_genes_10pct_cells_pattern_cortex.csv"))
@@ -31,7 +23,6 @@ nonadd_cortex <-  nonadd_cortex[,c(4,5,8)]
 keytypes(maize)
 write.csv(nonadd_cortex,"nonadd_cortex_b73xoh40b.csv")
 
-#在maizegdb上进行id转化
 file="gene_translate.php.txt"
 gene <- read.delim(file,header = T)
 deTable = merge(nonadd_cortex, gene,by.x="Trait", by.y="input", all=F)
@@ -61,7 +52,6 @@ gene_lists <- list(
   down_cortex = down_cortex
 )
 
-
 for (i in names(gene_lists)) {
   current_genes <- gene_lists[[i]]
   cat("正在处理:", i, "- 基因数量:", length(current_genes), "\n")
@@ -72,7 +62,6 @@ for (i in names(gene_lists)) {
   write.table(gsea_res, file_name, quote=F, sep="\t")
 }
 
-# 如果 GeneRatio 是 "12/345" 这种格式，转成数值
 parse_geneRatio <- function(x){
   if (is.numeric(x)) return(x)
   sapply(x, function(i){
@@ -101,7 +90,6 @@ parse_geneRatio <- function(x){
 go_down <- read.delim("GO_res_down_cortex.txt",header = T)
 go_up <- read.delim("GO_res_up_cortex.txt",header = T)
 
-
 go_up$GeneRatio_num   <- parse_geneRatio(go_up$GeneRatio)
 go_down$GeneRatio_num <- parse_geneRatio(go_down$GeneRatio)
 
@@ -126,13 +114,10 @@ top_down <- go_down %>%
 
 plot_df <- bind_rows(top_up, top_down)
 
-# 不换行，直接用原始通路名
 plot_df$label <- plot_df$Description
 
-# up / down 三角位置
 plot_df$x <- ifelse(plot_df$group == "up", 1.2, 1.8)
 
-# 标签统一放左侧框外
 label_df <- plot_df %>%
   mutate(label_x = 0.15)
 
@@ -188,17 +173,12 @@ ggsave("GO_top10_up_down_separate_green_outside_labels.pdf",
 ggsave("GO_top10_up_down_separate_green_outside_labels.png",
        p, width = 12, height = 10, dpi = 300)
 
-
-
-
-##表皮
 nonadd_Epidermis <- filter(nonaddgenes,Hybrid == "B73xA554" & pattern == "Non-additive" &
                           cluster_anno %in% c("Epidermis"))
 nonadd_Epidermis <-  nonadd_Epidermis[,c(4,5)]
 keytypes(maize)
 write.csv(nonadd_Epidermis,"nonadd_Epidermis_b73xa554.csv")
 
-#在maizegdb上进行id转化
 file="gene_translate_epidermics_php.txt"
 gene <- read.delim(file,header = T)
 deTable = merge(nonadd_Epidermis, gene,by.x="Trait", by.y="input", all=F)
@@ -228,7 +208,6 @@ gene_lists <- list(
   down_epi = down_epi
 )
 
-
 for (i in names(gene_lists)) {
   current_genes <- gene_lists[[i]]
   cat("正在处理:", i, "- 基因数量:", length(current_genes), "\n")
@@ -238,7 +217,6 @@ for (i in names(gene_lists)) {
   file_name = paste0("GO_res_",i,".txt")
   write.table(gsea_res, file_name, quote=F, sep="\t")
 }
-
 
 go_down <- read.delim("GO_res_down_epi.txt",header = T)
 go_up <- read.delim("GO_res_up_epi.txt",header = T)
@@ -267,13 +245,10 @@ top_down <- go_down %>%
 
 plot_df <- bind_rows(top_up, top_down)
 
-# 不换行，直接用原始通路名
 plot_df$label <- plot_df$Description
 
-# up / down 三角位置
 plot_df$x <- ifelse(plot_df$group == "up", 1.2, 1.8)
 
-# 标签统一放左侧框外
 label_df <- plot_df %>%
   mutate(label_x = 0.15)
 
@@ -328,6 +303,5 @@ ggsave("GOepi_top10_up_down_separate_green_outside_labels.pdf",
        p, width = 12, height = 10)
 ggsave("GOepi_top10_up_down_separate_green_outside_labels.png",
        p, width = 12, height = 10, dpi = 300)
-
 
 plot_df$Description

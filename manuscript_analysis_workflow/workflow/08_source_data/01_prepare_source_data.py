@@ -12,7 +12,6 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 
-
 parser = argparse.ArgumentParser(description=__doc__)
 parser.add_argument("--project-root", required=True, type=Path, help="Root containing analysis results and input tables")
 parser.add_argument("--output-dir", required=True, type=Path, help="Directory for machine-readable Source Data CSV files")
@@ -27,7 +26,6 @@ FIG7_GO = ROOT / "project_archive_work" / "source_inputs" / "fig7_go"
 FIG7_CC = ROOT / "project_archive_work" / "source_inputs" / "fig7_plantcellchat"
 KO_ROOT = ROOT / "sctenifold_downstream_analysis"
 
-
 def sha256(path: Path) -> str:
     digest = hashlib.sha256()
     with path.open("rb") as handle:
@@ -35,22 +33,18 @@ def sha256(path: Path) -> str:
             digest.update(chunk)
     return digest.hexdigest()
 
-
 def write_csv(data: pd.DataFrame, filename: str) -> Path:
     path = OUT / filename
     data.to_csv(path, index=False, encoding="utf-8-sig")
     return path
-
 
 def read_table(path: Path) -> pd.DataFrame:
     if path.suffix.lower() == ".txt":
         return pd.read_csv(path, sep="\t")
     return pd.read_csv(path)
 
-
 OUT.mkdir(parents=True, exist_ok=True)
 catalog: list[dict[str, object]] = []
-
 
 def register(
     workbook: str,
@@ -78,8 +72,6 @@ def register(
         }
     )
 
-
-# Figure 1B: reconstructed expression matrices and annotations.
 fig1_book = "Source Data Fig. 1.xlsx"
 register(fig1_book, "Fig1B sample annotation", FIG1 / "Fig1B_sample_position_annotation.csv",
          "Fig1B_sample_position_annotation.csv",
@@ -100,8 +92,6 @@ register(fig1_book, "Fig1B rebuild QC", FIG1 / "Fig1B_rebuild_QC.csv",
          "Fig1B_rebuild_QC.csv",
          "Reconstruction dimensions and non-finite-value quality checks.")
 
-
-# Figure 7: GO enrichment and PlantCellChat outputs.
 fig7_book = "Source Data Fig. 7.xlsx"
 for direction in ("up", "down"):
     for tissue, label in (("cortex", "Cortex"), ("epi", "Epidermis")):
@@ -116,8 +106,6 @@ for hybrid in ("B73xA554", "B73xOh40B"):
                  f"Fig7_{hybrid}_{subset}_communications.csv",
                  f"PlantCellChat communication table for {hybrid}, {label} interactions.")
 
-
-# Figure 8A: virtual-KO perturbation tables for both hybrids.
 fig8_book = "Source Data Fig. 8.xlsx"
 for hybrid in ("B73xA554", "B73xOh40B"):
     base = KO_ROOT / f"{hybrid}_sctenifold_KO_analysis" / "combined_comparison"
@@ -130,7 +118,6 @@ for hybrid in ("B73xA554", "B73xOh40B"):
         register(fig8_book, f"8A {hybrid[:8]} {short}", base / filename,
                  f"Fig8A_{hybrid}_{filename}", description)
 
-# Figure 8C: complete primary-tissue ROS enrichment statistics and the all-NAG GSEA subset.
 primary_path = RESULTS / "04_ros_primary_tissue_enrichment.csv"
 primary = pd.read_csv(primary_path)
 register(fig8_book, "8C ROS primary stats", primary_path,
@@ -142,7 +129,6 @@ register(fig8_book, "8C GSEA plotted data", primary_path,
          "All-NAG rows supplying NES, adjusted GSEA P value and leading-edge genes for Fig. 8C.",
          "Filtered to set_type == 'all'; no additional statistical recalculation.", gsea_plot)
 
-# Figure 8E: evidence table plus explicit Tier 1/2/3 gene lists.
 tiers_path = RESULTS / "05_ros_candidate_evidence_tiers.csv"
 tiers = pd.read_csv(tiers_path)
 register(fig8_book, "8E tier evidence", tiers_path,
@@ -154,12 +140,10 @@ register(fig8_book, "8E Tier gene lists", tiers_path,
          "Explicit gene membership for Tier 1, Tier 2 and Tier 3.",
          "Filtered to Tier 1/2/3 and retained gene and Tier columns.", tier_lists)
 
-# Figure 8F: exact five spatial gene sets and the slice-level and final heatmap data.
 def split_leading_edge(value: object) -> list[str]:
     if pd.isna(value) or not str(value).strip():
         return []
     return [gene.strip() for gene in str(value).split(";") if gene.strip()]
-
 
 le_rows: list[tuple[str, str]] = []
 epi_primary = primary.loc[(primary["Hybrid"] == "B73xA554") & (primary["set_type"] == "all")]
@@ -192,7 +176,6 @@ for filename, sheet, description in (
 ):
     register(fig8_book, sheet, RESULTS / filename, f"Fig8F_{filename}", description)
 
-# Figure 8G: full enrichment output, plotted recurrent-LE subset and annotation coverage.
 go_path = RESULTS / "23_candidate_GO_enrichment.csv"
 go = pd.read_csv(go_path)
 register(fig8_book, "8G GO all modules", go_path,
@@ -207,8 +190,6 @@ register(fig8_book, "8G annotation coverage", RESULTS / "25_functional_enrichmen
          "Fig8G_functional_enrichment_annotation_coverage.csv",
          "Gene-set sizes, annotation coverage and enrichment-background definition.")
 
-
-# Exploratory KO-module comparison: exact plotted values and their primary-stratum inputs.
 explore_book = "Source Data Exploratory KO module comparison.xlsx"
 register(explore_book, "Per KO plotted values", RESULTS / "08_module_comparison_per_ko.csv",
          "Exploratory_KO_module_per_KO_plotted_values.csv",
@@ -227,15 +208,12 @@ register(explore_book, "KO input manifest", RESULTS / "01_input_manifest.csv",
          "Exploratory_KO_module_input_manifest.csv",
          "KO module, runner and tested/significant-gene audit table.")
 
-
 catalog_df = pd.DataFrame(catalog)
 catalog_path = write_csv(catalog_df, "Source_Data_catalog.csv")
 
-# Numeric and structural validation.
 checks: list[dict[str, object]] = []
 def check(name: str, passed: bool, observed: object, expected: object) -> None:
     checks.append({"check": name, "passed": bool(passed), "observed": observed, "expected": expected})
-
 
 zcols = [f"S{i}" for i in range(1, 17)]
 z = pd.read_csv(FIG1 / "Fig1B_heatmap_gene_Zscore_matrix.csv")

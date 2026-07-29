@@ -1,8 +1,5 @@
-# Portable project root; set MAIZE_PROJECT_ROOT before running.
 project_root <- Sys.getenv("MAIZE_PROJECT_ROOT", unset = "")
 if (!nzchar(project_root)) stop("Set MAIZE_PROJECT_ROOT to the analysis data root")
-
-#!/usr/bin/env Rscript
 
 suppressPackageStartupMessages(library(data.table))
 if (.Platform$OS.type == "windows") {

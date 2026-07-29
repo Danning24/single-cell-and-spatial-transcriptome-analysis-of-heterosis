@@ -1,4 +1,3 @@
-# Portable project root; set MAIZE_PROJECT_ROOT before running.
 project_root <- Sys.getenv("MAIZE_PROJECT_ROOT", unset = "")
 if (!nzchar(project_root)) stop("Set MAIZE_PROJECT_ROOT to the analysis data root")
 
@@ -21,7 +20,6 @@ group<-list(c("F1_SS","P1_SS"),c("F1_SS","B73_SS"),
 out_dir <- "./data_output/cortex_h5ad"
 dir.create(out_dir, showWarnings = FALSE, recursive = TRUE)
 
-
 library(SingleCellExperiment)
 library(zellkonverter)
 
@@ -29,7 +27,6 @@ for (pair in group) {
   obj_sub <- subset(Cortex, subset = celltype %in% pair)
   obj_sub$group_mmd <- paste0(pair[1], "_vs_", pair[2])
 
-  # Seurat -> SingleCellExperiment
   sce <- as.SingleCellExperiment(obj_sub)
 
   tag <- gsub("[^A-Za-z0-9_\\-]", "_", paste0(pair[1], "_vs_", pair[2]))
