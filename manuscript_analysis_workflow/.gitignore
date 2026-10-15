@@ -1,0 +1,17 @@
+data/
+results/
+sctenifold_results/
+*.rds
+*.RDS
+*.h5ad
+*.h5
+*.loom
+*.mtx
+*.gz
+*.pdf
+*.png
+*.xlsx
+*.csv
+!workflow/inputs/knockout_targets.csv
+__pycache__/
+*.pyc
