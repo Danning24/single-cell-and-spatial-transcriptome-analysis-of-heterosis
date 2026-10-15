@@ -1,0 +1,37 @@
+gene,symbol,module,batch,batch_order
+Zm00001d002275,MRPA5,Stress transport and protein homeostasis,additional22,19
+Zm00001d006753,AAS2,Hormone metabolism and signaling,additional22,4
+Zm00001d007234,APX2,ROS and redox homeostasis,original6,1
+Zm00001d009858,C4H,Cell wall water transport and cytoskeleton,additional22,10
+Zm00001d011208,ACCO5,Hormone metabolism and signaling,additional22,5
+Zm00001d011969,NACTF9,Stress transport and protein homeostasis,additional22,1
+Zm00001d012221,SACD9,C-N lipid and energy metabolism,additional22,15
+Zm00001d013220,ODDH8,C-N lipid and energy metabolism,completion8,1
+Zm00001d013410,ACT5,Cell wall water transport and cytoskeleton,additional22,9
+Zm00001d015852,LOX11,Hormone metabolism and signaling,additional22,8
+Zm00001d018973,IAA32,Hormone metabolism and signaling,additional22,6
+Zm00001d019283,CRT2,Stress transport and protein homeostasis,additional22,16
+Zm00001d019565,PIP2F,Cell wall water transport and cytoskeleton,additional22,12
+Zm00001d024755,PTI2,Stress transport and protein homeostasis,completion8,2
+Zm00001d026154,GPX,ROS and redox homeostasis,original6,2
+Zm00001d026577,CCP6,Stress transport and protein homeostasis,additional22,18
+Zm00001d028307,SRO1e,Stress transport and protein homeostasis,additional22,2
+Zm00001d028392,ADF5,Cell wall water transport and cytoskeleton,additional22,11
+Zm00001d028759,PDC3,C-N lipid and energy metabolism,completion8,3
+Zm00001d029170,SOD4,ROS and redox homeostasis,original6,3
+Zm00001d030557,ALT12,C-N lipid and energy metabolism,additional22,22
+Zm00001d030725,HSP70-1,Stress transport and protein homeostasis,additional22,17
+Zm00001d033931,ADH1,C-N lipid and energy metabolism,completion8,4
+Zm00001d034109,PP2C-A,Hormone metabolism and signaling,additional22,3
+Zm00001d037547,POX3,ROS and redox homeostasis,additional22,13
+Zm00001d039221,NDPK4,Stress transport and protein homeostasis,additional22,14
+Zm00001d042096,GST21,ROS and redox homeostasis,original6,4
+Zm00001d043382,GOT1/THP3,C-N lipid and energy metabolism,completion8,5
+Zm00001d043551,DHN6,Stress transport and protein homeostasis,additional22,20
+Zm00001d043795,GST48,ROS and redox homeostasis,original6,5
+Zm00001d048020,HB1,ROS and redox homeostasis,original6,6
+Zm00001d048021,AOS1,Hormone metabolism and signaling,additional22,7
+Zm00001d049059,ADH2,C-N lipid and energy metabolism,completion8,6
+Zm00001d051420,DHN3,Stress transport and protein homeostasis,completion8,7
+Zm00001d051804,GLN5,C-N lipid and energy metabolism,additional22,21
+Zm00001d053964,ARM4,Stress transport and protein homeostasis,completion8,8

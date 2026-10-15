@@ -1,7 +1,6 @@
 data/
 results/
 sctenifold_results/
-ros_nonadditive_analysis/input/
 *.rds
 *.RDS
 *.h5ad
@@ -13,6 +12,6 @@ ros_nonadditive_analysis/input/
 *.png
 *.xlsx
 *.csv
-!SOURCE_PROVENANCE.tsv
+!workflow/inputs/knockout_targets.csv
 __pycache__/
 *.pyc
